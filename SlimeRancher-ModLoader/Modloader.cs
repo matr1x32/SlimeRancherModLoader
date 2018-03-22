@@ -14,7 +14,7 @@ namespace SRModLoader
         public delegate void ModEventHandler();
         public static event ModEventHandler PhaseChanged;
         public static LoadPhase currentPhase;
-        public enum LoadPhase { Loading, Start, MainMenu, Ingame, Exit }
+        public enum LoadPhase { Loading, MainMenu, InGame }
 
         private bool duplicate = false;
         private int modCount = 0;
@@ -52,7 +52,6 @@ namespace SRModLoader
             Debug.Log("Loaded " + num.ToString() + " mods");
             #endregion
 
-            ChangePhase(LoadPhase.Start);
         }
 
         public void Start()
@@ -63,7 +62,7 @@ namespace SRModLoader
         public void LoadMod(FileInfo file, GameObject root)
         {
             Assembly assembly = Assembly.LoadFrom(file.FullName);
-            Type type = assembly.GetType("Mod");
+            Type type = assembly.GetType("LoadMod");
             Debug.Log("Removing " + base.GetComponents(type).Length.ToString() + " duplicate(s) of " + file.Name);
             foreach (Component component in base.GetComponents(type))
             {
